@@ -31,11 +31,9 @@ makes no attempt to create an empty one for you, nor install an nfs server, etc.
 ### Beginning with nfs_exports
 
 ```puppet
-
 nfs_exports::export{ '/data/:
   clients => [{client => 'testvm.example.com', options => ['rw']}],
 }
-
 ```
 
 ## Usage
@@ -71,7 +69,7 @@ nfs_exports::export { '/data':
 should produce:
 
 ```text
-data -ro example.com other.example.com(rw)
+/data -ro example.com other.example.com(rw)
 ```
 
 ## Limitations
