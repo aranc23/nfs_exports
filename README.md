@@ -1,10 +1,10 @@
 # nfs_exports
 
-Welcome to your new module. A short overview of the generated parts can be found
-in the [PDK documentation][1].
+Updates entries in /etc/exports using class parameters or the 
+nfs_exports::export defined type.  
 
-The README template below provides a starting point with details about what
-information to include in your README.
+WARNING: This class will overwrite any existing entry for a given export, it does
+not manage individual clients in a given export.
 
 ## Table of Contents
 
@@ -19,99 +19,65 @@ information to include in your README.
 
 ## Description
 
-Briefly tell users why they might want to use your module. Explain what your
-module does and what kind of problems users can solve with it.
-
-This should be a fairly short description helps the user decide if your module
-is what they want.
+Use this to simply manage exports entries without managing everything about NFS.
+Do not use this module if you want to preserve existing client entries for a given 
+export line in /etc/exports.
 
 ## Setup
 
-### What nfs_exports affects **OPTIONAL**
+### Setup Requirements
 
-If it's obvious what your module touches, you can skip this section. For
-example, folks can probably figure out that your mysql_instance module affects
-their MySQL instances.
-
-If there's more that they should know about, though, this is the place to
-mention:
-
-* Files, packages, services, or operations that the module will alter, impact,
-  or execute.
-* Dependencies that your module automatically installs.
-* Warnings or other important notices.
-
-### Setup Requirements **OPTIONAL**
-
-If your module requires anything extra before setting up (pluginsync enabled,
-another module, etc.), mention it here.
-
-If your most recent release breaks compatibility or requires particular steps
-for upgrading, you might want to include an additional "Upgrading" section here.
+The file to be managed (typically /etc/exports) must already exist, the module
+makes no attempt to create an empty one for you, nor install an nfs server, etc.
 
 ### Beginning with nfs_exports
 
-The very basic steps needed for a user to get the module up and running. This
-can include setup steps, if necessary, or it can be an example of the most basic
-use of the module.
+```puppet
+
+nfs_exports::export{ '/data/:
+  clients => [{client => 'testvm.example.com', options => ['rw']}],
+}
+
+```
 
 ## Usage
 
-Include usage examples for common use cases in the **Usage** section. Show your
-users how to use your module to solve problems, and be sure to include code
-examples. Include three to five examples of the most important or common tasks a
-user can accomplish with your module. Show users how to accomplish more complex
-tasks that involve different types, classes, and functions working in tandem.
-
-## Reference
-
-This section is deprecated. Instead, add reference information to your code as
-Puppet Strings comments, and then use Strings to generate a REFERENCE.md in your
-module. For details on how to add code comments and generate documentation with
-Strings, see the [Puppet Strings documentation][2] and [style guide][3].
-
-If you aren't ready to use Strings yet, manually create a REFERENCE.md in the
-root of your module directory and list out each of your module's classes,
-defined types, facts, functions, Puppet tasks, task plans, and resource types
-and providers, along with the parameters for each.
-
-For each element (class, defined type, function, and so on), list:
-
-* The data type, if applicable.
-* A description of what the element does.
-* Valid values, if the data type doesn't make it obvious.
-* Default value, if any.
-
-For example:
-
+```puppet
+class { '::nfs_exports':
+  exportfs => '/opt/bin/exportfs -ra',
+  exports => {
+    '/data'     => [
+      { client => 'testvm.example.com', options => ['rw'] },
+      { client => 'roclient.example.com', options => ['ro'] },
+    ],
+  },
+}
 ```
-### `pet::cat`
 
-#### Parameters
+should produce the following, and then execute '/opt/bin/exportfs -ra'
 
-##### `meow`
+```text
+/data testvm.example.com(rw) roclient.example.com(ro)
+```
 
-Enables vocalization in your cat. Valid options: 'string'.
+```puppet
+nfs_exports::export { '/data':
+  clients => [
+    { client => '-', options => ['ro'] },
+    { client => 'example.com'},
+    { client => 'other.example.com', options => 'rw'},
+ ],
+}
+```
 
-Default: 'medium-loud'.
+should produce:
+
+```text
+data -ro example.com other.example.com(rw)
 ```
 
 ## Limitations
 
-In the Limitations section, list any incompatibilities, known issues, or other
-warnings.
-
-## Development
-
-In the Development section, tell other users the ground rules for contributing
-to your project and how they should submit their work.
-
-## Release Notes/Contributors/Etc. **Optional**
-
-If you aren't using changelog, put your release notes here (though you should
-consider using changelog). You can also add any additional sections you feel are
-necessary or important to include here. Please use the `##` header.
-
-[1]: https://puppet.com/docs/pdk/latest/pdk_generating_modules.html
-[2]: https://puppet.com/docs/puppet/latest/puppet_strings.html
-[3]: https://puppet.com/docs/puppet/latest/puppet_strings_style.html
+The module doesn't attempt to validate the client or options part of the configuration.
+There are a many ways to specify a client to the exports file including wildcard patterns, etc. so for the sake of time there is no validation.
+The module should be able to manage individual entries in an export line without overwriting the whole line, possibly using augeas and a real type instead of a defined type.
