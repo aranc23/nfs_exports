@@ -19,6 +19,11 @@
 Along with a defined type (nfs::exports::export) manages
 entries in /etc/exports and subsequently invokes exportfs.
 
+#### Examples
+
+##### Class usage
+
+```puppet
 class { '::nfs_exports':
   exports => {
     '/data'     => [
@@ -27,13 +32,6 @@ class { '::nfs_exports':
     ],
   },
 }
-
-#### Examples
-
-##### Class usage
-
-```puppet
-
 ```
 
 #### Parameters
@@ -77,13 +75,6 @@ Default value: `{}`
 Manages one export entry in /etc/exports,
 completelely replacing any existing hosts for that entry.
 
-nfs_exports::export { '/data':
-  clients => [
-    { client => '-', options => ['ro'] },
-    { client => 'example.com'},
-    { client => 'other.example.com', options => 'rw'},
- ],
-}
 should produce:
   /data -ro example.com other.example.com(rw)
 
@@ -92,7 +83,13 @@ should produce:
 ##### Typical usage
 
 ```puppet
-
+nfs_exports::export { '/data':
+  clients => [
+    { client => '-', options => ['ro'] },
+    { client => 'example.com'},
+    { client => 'other.example.com', options => 'rw'},
+ ],
+}
 ```
 
 #### Parameters
