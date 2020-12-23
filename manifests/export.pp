@@ -10,13 +10,13 @@
 #   see the exports man page on your system for details
 # 
 # @example Typical usage
-# nfs_exports::export { '/data':
-#   clients => [
-#     { client => '-', options => ['ro'] },
-#     { client => 'example.com'},
-#     { client => 'other.example.com', options => 'rw'},
-#  ],
-# }
+#   nfs_exports::export { '/data':
+#     clients => [
+#       { client => '-', options => ['ro'] },
+#       { client => 'example.com'},
+#       { client => 'other.example.com', options => 'rw'},
+#    ],
+#   }
 # should produce:
 #   /data -ro example.com other.example.com(rw)
 define nfs_exports::export

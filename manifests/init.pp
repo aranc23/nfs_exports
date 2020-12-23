@@ -14,14 +14,14 @@
 #   consisting of an array of client structs, see below for example
 #
 # @example Class usage
-# class { '::nfs_exports':
-#   exports => {
-#     '/data'     => [
-#       { client => 'testvm.example.com', options => ['rw'] },
-#       { client => 'roclient.example.com', options => ['ro'] },
-#     ],
-#   },
-# }
+#   class { '::nfs_exports':
+#     exports => {
+#       '/data'     => [
+#         { client => 'testvm.example.com', options => ['rw'] },
+#         { client => 'roclient.example.com', options => ['ro'] },
+#       ],
+#     },
+#   }
 class nfs_exports
 (
   String $etc_exports,
