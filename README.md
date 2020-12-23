@@ -10,12 +10,10 @@ not manage individual clients in a given export.
 
 1. [Description](#description)
 1. [Setup - The basics of getting started with nfs_exports](#setup)
-    * [What nfs_exports affects](#what-nfs_exports-affects)
     * [Setup requirements](#setup-requirements)
     * [Beginning with nfs_exports](#beginning-with-nfs_exports)
 1. [Usage - Configuration options and additional functionality](#usage)
 1. [Limitations - OS compatibility, etc.](#limitations)
-1. [Development - Guide for contributing to the module](#development)
 
 ## Description
 
