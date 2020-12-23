@@ -1,9 +1,6 @@
 <%= @title -%>
-<% if @default_options and @default_options.length() > 0 -%>
-<% @default_options.is_a?(String) -%>
- -<%= [@default_options].flatten.join(',') -%>
-<% end -%>
 <% @clients.each do |client| -%>
  <%= client['client'] -%>
-<% if client.has_key?('options') -%>(<%= [client['options']].flatten.join(',') -%>)<% end -%>
+<% if client.has_key?('options') -%>
+<% if client['client'] != '-' -%>(<% end %><%= [client['options']].flatten.join(',') -%><% if client['client'] != '-' -%>)<% end -%><% end -%>
 <% end -%>

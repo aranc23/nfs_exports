@@ -1,1 +1,4 @@
---- {}
+---
+nfs_exports::etc_exports: '/etc/exports'
+nfs_exports::exportfs: 'exportfs -ra'
+nfs_exports::exportfs_path: ['/sbin','/usr/sbin']
