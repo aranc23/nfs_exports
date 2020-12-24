@@ -28,7 +28,12 @@ define nfs_exports::export
 )
 {
   include ::nfs_exports
-  assert_type(Stdlib::Absolutepath,$title)
+  #assert_type(Stdlib::Absolutepath,$title)
+  unless($title =~ Stdlib::Absolutepath) {
+    # this seems more clear when it does fail than above,
+    # because the assert_type output can be hard to parse
+    fail("resource title must be an absolute path: ${title}")
+  }
 
   file_line { "update export entry for ${title} in ${nfs_exports::etc_exports}":
     path   => $nfs_exports::etc_exports,
