@@ -24,9 +24,9 @@
 #   }
 class nfs_exports
 (
-  String $etc_exports,
+  Stdlib::Absolutepath $etc_exports,
   String $exportfs,
-  Array[String] $exportfs_path,
+  Array[Stdlib::Absolutepath] $exportfs_path,
   Hash[String,Array[Struct[{
     client  => String,
     options => Optional[Variant[String,Array[String]]]
