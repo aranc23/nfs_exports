@@ -3,7 +3,7 @@
 require 'spec_helper'
 
 describe 'nfs_exports::export' do
-  let(:title) { 'namevar' }
+  let(:title) { '/namevar' }
   let(:params) do
     {}
   end
