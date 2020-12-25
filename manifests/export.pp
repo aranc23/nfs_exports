@@ -38,7 +38,7 @@ define nfs_exports::export
   file_line { "update export entry for ${title} in ${nfs_exports::etc_exports}":
     path   => $nfs_exports::etc_exports,
     line   => template('nfs_exports/export.erb'),
-    match  => "^${title}\s*",
+    match  => "^${title}\s+",
     notify => Exec[$nfs_exports::exportfs]
   }
 
