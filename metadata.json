@@ -2,7 +2,7 @@
   "name": "aranc23-nfs_exports",
   "version": "0.1.2",
   "author": "Aran Cox",
-  "summary": "",
+  "summary": "manage an nfs export using a defined type",
   "license": "Apache-2.0",
   "source": "",
   "dependencies": [
